@@ -16,38 +16,21 @@ public class SearchRange {
 
     public static int[] searchRange(int[] nums, int target) {
         int[] index = new int[2];
-        if(nums.length ==0){
-            index[0] = -1;
-            index[1] = -1;
-            return index;
-        }
-        int left = 0 ,right = nums.length-1;
-        while (left <= right){
-            int mid = ((right-left) >> 1) + left;
-            if (nums[mid]==target) {
-                //找左节点
-                int l = diguiLeft(mid,nums, target, left, mid - 1);
-                index[0] = l;
-                //找右节点
-                int r = diguiRight(mid,nums, target, mid + 1, right);
-                index[1] = r;
-                return index;
-            }else if (nums[mid] >target){
-                right = mid-1;
-            }else {
-                left = mid+1;
-            }
-        }
         index[0] = -1;
         index[1] = -1;
+        //先找到第一个target,然后一个往左,一个往右找。
+        searchLeft(nums,target,index);
+        searchRight(nums,target,index);
         return index;
     }
 
-    public static int  diguiLeft(int l,int[] nums, int target,int left,int right){
+    public static void  searchLeft(int[] nums,int target,int[] index){
+        int left=0,right=nums.length-1;
         while (left <= right){
             int mid = ((right-left) >> 1) + left;
             if (nums[mid]==target) {
-                l = mid;
+                //找到了target,先赋值，但是循环还没结束，有可能还存在target,继续往左边找，直至循环结束。
+                index[0]=mid;
                 right = mid-1;
             }else if (nums[mid] >target){
                 right = mid-1;
@@ -55,14 +38,15 @@ public class SearchRange {
                 left = mid+1;
             }
         }
-        return l;
     }
 
-    public static int  diguiRight(int r,int[] nums, int target,int left,int right){
+    public static void  searchRight(int[] nums,int target,int[] index){
+        int left=0,right=nums.length-1;
         while (left <= right){
             int mid = ((right-left) >> 1) + left;
             if (nums[mid]==target) {
-                r = mid;
+                //找到了target,先赋值，但是循环还没结束，有可能还存在target,继续往右边找，直至循环结束。
+                index[1]=mid;
                 left = mid+1;
             }else if (nums[mid] >target){
                 right = mid-1;
@@ -70,7 +54,6 @@ public class SearchRange {
                 left = mid+1;
             }
         }
-        return r;
     }
 
 }

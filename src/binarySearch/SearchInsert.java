@@ -12,7 +12,7 @@ public class SearchInsert {
 
     public static void main(String[] args) {
         int nums[] = {1,3,5,7,9};
-        int target = 10 ;
+        int target = 5 ;
         System.out.println(searchInsert(nums,target));
     }
 

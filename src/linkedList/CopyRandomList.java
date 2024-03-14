@@ -1,7 +1,6 @@
 package linkedList;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * @Desc: 给你一个长度为 n 的链表，每个节点包含一个额外增加的随机指针 random ，该指针可以指向链表中的任何节点或空节点。
@@ -36,7 +35,15 @@ import java.util.HashSet;
 public class CopyRandomList {
 
     public static void main(String[] args) {
-
+        Node node1 = new Node(1);
+        Node head = node1;
+        for (int i = 2; i < 4; i++) {
+            Node p = new Node(i);
+            node1.next = p;
+            node1 = p;
+        }
+        Node node = copyRandomList02(head);
+        System.out.println(node);
     }
 
     /**
@@ -86,6 +93,29 @@ public class CopyRandomList {
             curr = curr.next;
         }
         return newHead;
+    }
+
+    /**
+     * 时间复杂度 O(n) 空间复杂度O(n)
+     * 解题思路: 回溯+哈希表
+     * map的作用,random递归时不再创建新的对象
+     */
+    static HashMap<Node, Node> map = new HashMap<>();
+    public static Node copyRandomList02(Node head) {
+        if(head == null){
+            return null;
+        }
+        if (!map.containsKey(head)) {
+            Node newNode = new Node(head.val);
+            map.put(head,newNode);
+            //先进入next递归,相当于遍历了一次,将新链表节点都创建完毕
+            newNode.next = copyRandomList02(head.next);
+            //此时是在新链表的尾节点往头节点进行遍历,所以是回溯,此时对象都已经创建,就不能再进入next递归,直接获取节点即可
+            //但是传入的是老节点,需要的是新链表节点
+            //所以需要定义一个全局变量的map来存储新老节点映射关系
+            newNode.random = copyRandomList02(head.random);
+        }
+        return map.get(head);
     }
 
 

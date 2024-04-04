@@ -141,4 +141,5 @@ class LRUCache02 {
         node.value = null;
         size--;
     }
+
 }

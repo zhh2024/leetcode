@@ -1,7 +1,7 @@
 package linkedList;
 
 /**
- * @Desc:
+ * @Desc: 链表节点
  * @Author：zhh
  * @Date：2024/3/7 17:27
  */

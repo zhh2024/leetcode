@@ -75,16 +75,5 @@ public class MergeTwoLists {
         }
     }
 
-    /**
-     * 递归遍历链表
-     * @param node
-     * @return
-     */
-    public static ListNode digui(ListNode node){
-        if(node ==null){
-            return null;
-        }
-        node.next = digui(node.next);
-        return node;
-    }
+
 }

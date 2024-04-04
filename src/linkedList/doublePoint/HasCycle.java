@@ -1,4 +1,6 @@
-package linkedList;
+package linkedList.doublePoint;
+
+import linkedList.ListNode;
 
 import java.util.HashSet;
 
@@ -52,6 +54,32 @@ public class HasCycle {
         }
         return false;
     }
+
+    /**
+     * 1.初始化快慢指针
+     * 2.慢指针每次走一步,快指针每次走两步
+     * 3.同时遍历快慢指针
+     * 4.慢指针 low = low.next
+     * 5.快指针 fast = fast.next.next
+     * @param head
+     * @return
+     */
+    public boolean hasCycle02(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+
 
 
 }

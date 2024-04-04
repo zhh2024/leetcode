@@ -6,9 +6,9 @@ package linkedList;
  * @Date：2024/3/11 21:18
  */
 public class Node {
-    int val;
-    Node next;
-    Node random;
+    public int val;
+    public Node next;
+    public Node random;
 
     public Node(int val) {
         this.val = val;

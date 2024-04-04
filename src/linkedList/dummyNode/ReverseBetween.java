@@ -1,5 +1,7 @@
-package linkedList;
+package linkedList.dummyNode;
 
+
+import linkedList.ListNode;
 
 /**
  * @Desc: 给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。

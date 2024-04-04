@@ -1,4 +1,6 @@
-package linkedList;
+package linkedList.newLinkedList;
+
+import linkedList.ListNode;
 
 /**
  * @Desc: 分隔链表

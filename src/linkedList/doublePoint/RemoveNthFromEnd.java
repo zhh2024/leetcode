@@ -1,4 +1,6 @@
-package linkedList;
+package linkedList.doublePoint;
+
+import linkedList.ListNode;
 
 import java.util.Deque;
 import java.util.LinkedList;

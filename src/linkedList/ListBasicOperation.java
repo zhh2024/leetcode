@@ -1,11 +1,11 @@
 package linkedList;
 
 /**
- * @Desc: 链表常用操作
+ * @Desc: 链表基础操作
  * @Author：zhh
  * @Date：2024/4/4 21:25
  */
-public class ListDemo {
+public class ListBasicOperation {
 
     private ListNode head;
     private ListNode tail;

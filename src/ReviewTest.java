@@ -2,7 +2,7 @@
  * @Author：zhh
  * @Date：2023/9/9 21:11
  */
-public class RevrewTest {
+public class ReviewTest {
 
     public static void main(String[] args) {
         int[] nums1 = {1,2,3,0,0,0};

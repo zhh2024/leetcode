@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @Desc:
+ * @Desc: 判断两个树是否相同
+ * 1. 递归根左右,分别判断两个树的节点是否一致
+ * 2. 通过前序遍历和中序遍历结果来判断
  * @Author：zhh
  * @Date：2024/6/13 11:05
  */
@@ -16,27 +18,13 @@ public class IsSameTree {
     }
 
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        List<TreeNode> pNodeList = new ArrayList<>();
-        List<TreeNode> qNodeList = new ArrayList<>();
-        digui(pNodeList,p);
-        digui(qNodeList,q);
-        if(pNodeList.size() != qNodeList.size()){
+        if(p == null && q == null){
+            return true;
+        } else if(p != null && q !=null && p.val == q.val){
+            //继续递归
+        } else {
             return false;
         }
-        for (int i = 0; i < pNodeList.size(); i++) {
-            if (pNodeList.get(i).val != qNodeList.get(i).val) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void digui(List<TreeNode> pNodeList ,TreeNode node){
-        if(node == null){
-            return;
-        }
-        digui(pNodeList,node.left);
-        digui(pNodeList,node.right);
-        pNodeList.add(node);
+        return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
     }
 }

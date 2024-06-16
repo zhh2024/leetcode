@@ -1,8 +1,10 @@
 package tree.binarytree;
 
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 完全二叉树
@@ -11,29 +13,60 @@ import java.util.Deque;
  */
 public class CompleteBinaryTree {
 
-    public boolean isCompleteTree(TreeNode root) {
-        if (root == null) {
+    public static void main(String[] args) {
+        TreeNode node6 = new TreeNode(6, null, null);
+        TreeNode node5 = new TreeNode(5, null, null);
+        TreeNode node4 = new TreeNode(4, null, null);
+        TreeNode node3 = new TreeNode(3, node6, null);
+        TreeNode node2 = new TreeNode(2, node4, node5);
+        TreeNode node1 = new TreeNode(1, node2, node3);
+        boolean completeTree = isCompleteTree(node1);
+        System.out.println(completeTree);
+    }
+
+    public static boolean isCompleteTree(TreeNode root) {
+        //1. 如果为null,则是空树
+        if(root == null ){
             return true;
         }
-        boolean end = false;
-        Deque<TreeNode> stack = new ArrayDeque<>();
-        stack.offer(root);
-        while (!stack.isEmpty()) {
-            TreeNode node = stack.pollLast();
-            // 如果已经遇到了叶节点，那么后面的节点都应该为null
-            if (node == null) {
-                if (end) return false;
-                else end = true;
-            } else {
-                // 如果左子节点存在，那么它必须在当前节点之后被访问到
-                if (node.left != null && !stack.isEmpty()) return false;
-                // 如果右子节点存在，那么它必须在当前节点的下一层中
-                if (node.right != null && !end) return false;
-                stack.offer(node.right);
-                stack.offer(node.left);
-            }
+        //2. 单节点二叉树
+        if(root.left == null && root.right ==null){
+            return true;
         }
-        return true;
+        //3. 有且仅有一个根节点
+
+        //4. 通过根节点寻找子树和子树关系
+        TreeNode left = root.left;
+        TreeNode right = root.right;
+        //5. 根节点只有左右两分支,且左右子树和子树关系无交集
+        LinkedList<TreeNode> leftList = new LinkedList<>();
+        LinkedList<TreeNode> rightList = new LinkedList<>();
+        findTreeNode(leftList,left);
+        findTreeNode(rightList,right);
+
+        HashMap<TreeNode,TreeNode> treeNodeMap = new HashMap<>();
+        leftList.forEach(treeNode -> treeNodeMap.put(treeNode,treeNode));
+        List<TreeNode> collect = rightList.parallelStream().filter(treeNode -> treeNodeMap.containsKey(treeNode))
+                .collect(Collectors.toList());
+        if(collect.size()>0){
+            return false;
+        }
+        //5. 只有两个分支,左分支存在,那么右分支必然存在。
+        if(left != null && left.left !=null){
+
+        }
+        boolean leftComplete = isCompleteTree(root.left);
+        boolean rightComplete = isCompleteTree(root.right);
+        return leftComplete && rightComplete;
+    }
+
+    public static List<TreeNode> findTreeNode(List<TreeNode> list,TreeNode root){
+        if (root == null) {
+            return list;
+        }
+        list.add(root);
+        findTreeNode(list,root.left);
+        return findTreeNode(list, root.right);
     }
 
 }

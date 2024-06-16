@@ -2,6 +2,7 @@ package tree.binarytree;
 
 /**
  * @Desc: 利用遍历创建二叉树
+ * 二叉树 是根左右,递归创建。所以只能是先序遍历的顺序构造数组。
  * @Author：zhh
  * @Date：2024/6/16 15:55
  */

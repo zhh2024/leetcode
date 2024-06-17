@@ -8,15 +8,15 @@ public class TreeNode {
     /**
      * 当前值
      */
-    int val;
+    public int val;
     /**
      * 左孩子
      */
-    TreeNode left;
+    public TreeNode left;
     /**
      * 右还子
      */
-    TreeNode right;
+    public TreeNode right;
 
     public TreeNode(int val, TreeNode left, TreeNode right) {
         this.val = val;

@@ -1,4 +1,6 @@
-package tree.binarytree;
+package tree.binarytree.traverse;
+
+import tree.binarytree.TreeNode;
 
 import java.util.LinkedList;
 

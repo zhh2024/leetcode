@@ -25,10 +25,10 @@ public class BuildTree {
         for (int i = 0; i < inorder.length; i++) {
             map.put(inorder[i],i);
         }
-        return buildTree2(preorder, inorder,  0, length - 1);
+        return buildTree2(preorder,   0, length - 1);
     }
 
-    public static TreeNode buildTree2(int[] preorder, int[] inorder
+    public static TreeNode buildTree2(int[] preorder
                                       ,int inorder_left,int inorder_right){
         //为根节点,左右子树为null
         if(inorder_left > inorder_right){
@@ -41,9 +41,9 @@ public class BuildTree {
         //通过根节点,拆分中序数组为左右子树
         Integer i = map.get(root);
         //递归指向左子树的根节点
-        rootNode.left = buildTree2(preorder,inorder,inorder_left,i-1);
+        rootNode.left = buildTree2(preorder,inorder_left,i-1);
         //递归指向右子树的根节点
-        rootNode.right = buildTree2(preorder,inorder,i+1,inorder_right);
+        rootNode.right = buildTree2(preorder,i+1,inorder_right);
         return rootNode;
     }
 }

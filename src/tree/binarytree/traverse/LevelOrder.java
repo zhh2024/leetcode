@@ -4,6 +4,7 @@ import tree.binarytree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,12 +18,19 @@ public class LevelOrder {
     public static void main(String[] args) {
         TreeNode node6 = new TreeNode(6, null, null);
         TreeNode node5 = new TreeNode(7, null, null);
-        TreeNode node4 = new TreeNode(15, null, null);
-        TreeNode node3 = new TreeNode(20, node4, node5);
+        TreeNode node4 = new TreeNode(15, node5, node6);
+        TreeNode node3 = new TreeNode(20, null, null);
         TreeNode node2 = new TreeNode(9, null, null);
         TreeNode node1 = new TreeNode(3, node2, node3);
-        levelOrder(node1);
+        levelOrder2(node1);
     }
+
+    /**
+     * 时间复杂度O(n^2) ,空间复杂度O(n^2)
+     * 思路:由上而下循环迭代
+     * @param root
+     * @return
+     */
     public static List<List<Integer>> levelOrder(TreeNode root) {
         ArrayList<List<Integer>> levelVar = new ArrayList<>();
         int depth = getDepth(root);
@@ -58,6 +66,34 @@ public class LevelOrder {
                 vars.add(val);
             }
             levelVar.add(vars);
+        }
+        return levelVar;
+    }
+
+    public static List<List<Integer>> levelOrder2(TreeNode root) {
+        ArrayList<List<Integer>> levelVar = new ArrayList<>();
+        if(root == null){
+            return levelVar;
+        }
+        //初始化队列,先进先出,才能不影响后进入的node
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        //队列为null,就代表着没有node进入队列了,tree遍历结束了。
+        while (!queue.isEmpty()){
+            //size代表每一层的节点个数
+            int size = queue.size();
+            ArrayList<Integer> nodeVars = new ArrayList<>(size);
+            for (int i = 0; i < size; i++) {
+                TreeNode treeNode = queue.poll();
+                nodeVars.add(treeNode.val);
+                if (treeNode.left!=null) {
+                    queue.offer(treeNode.left);
+                }
+                if (treeNode.right!=null) {
+                    queue.offer(treeNode.right);
+                }
+            }
+            levelVar.add(nodeVars);
         }
         return levelVar;
     }

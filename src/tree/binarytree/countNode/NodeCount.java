@@ -1,4 +1,6 @@
-package tree.binarytree;
+package tree.binarytree.countNode;
+
+import tree.binarytree.TreeNode;
 
 /**
  * @Desc: 统计二叉树中节点的个数

@@ -37,16 +37,16 @@ public class SumNumbers {
 
     /**
      * 时间复杂度O(n)
-     * 思路: 深度优先搜索,递归,每次进入递归计算值,遇到叶子节点进行累加。
+     * 思路: DFS（Depth-First Search）深度优先搜索,递归,每次进入递归计算值,遇到叶子节点进行累加。
      * @param root
      * @return
      */
     int sum = 0;
     public int sumNumbers(TreeNode root) {
-        digui(root,0);
+        dfs(root,0);
         return sum;
     }
-    public void digui(TreeNode root,int number){
+    public void dfs(TreeNode root,int number){
         if(root == null){
             return;
         }
@@ -54,8 +54,8 @@ public class SumNumbers {
         if(root.left == null && root.right == null){
             sum += num;
         }
-        digui(root.left, num);
-        digui(root.right, num);
+        dfs(root.left, num);
+        dfs(root.right, num);
     }
 
     /**
@@ -64,9 +64,9 @@ public class SumNumbers {
      * @return
      */
     public int sumNumbers2(TreeNode root) {
-        return  digui2(root,0);
+        return  dfs2(root,0);
     }
-    public int digui2(TreeNode root,int number){
+    public int dfs2(TreeNode root,int number){
         if(root == null){
             return 0;
         }
@@ -74,7 +74,7 @@ public class SumNumbers {
         if(root.left == null && root.right == null){
             return sum;
         }
-        return digui2(root.left, sum) + digui2(root.right, sum);
+        return dfs2(root.left, sum) + dfs2(root.right, sum);
     }
 
     /**

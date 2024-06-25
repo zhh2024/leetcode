@@ -26,14 +26,11 @@ public class LowestCommonAncestor {
 
     }
     TreeNode node = null;
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        dfs(root,p,q);
-        return node;
-    }
 
     /**
      * 时间复杂度O(n)
-     * 思路: 1. 先将树看成一个节点,如果节点是p或者q,那么该节点就是公共祖先
+     * 思路: 后序遍历的模型，只不过是每个父节点都会接收子节点的状态（是否含有p、q）并把这个状态往上传递，直到该结点满足祖先节点的条件。
+     *      1. 先将树看成一个节点,如果节点是p或者q,那么该节点就是公共祖先
      *      2. 再将树看成左右根三个节点,如果根不是p,q。左右子树各自存在p或者q,根就是公共祖先。
      *                          如果根是p或者q。左右子树有一个存在p或者q,根就是公共祖先。
      *      3. 开始递归,左右根,由底往上,将结果回溯,找到第一个公共祖先就是最近公共祖先。
@@ -42,6 +39,32 @@ public class LowestCommonAncestor {
      * @param q
      * @return
      */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        dfs(root,p,q);
+        return node;
+    }
+
+    /**
+     * 对上面优化,取代boolean直接返回node,将node作为状态传递
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null){
+            return null;
+        }
+        TreeNode leftTree = lowestCommonAncestor2(root.left, p, q);
+        TreeNode rightTree = lowestCommonAncestor2(root.right, p, q);
+        //根是p,q返回root, 或者根的左右子树不为Null,代表root是公共祖先,返回root。将状态往上传递
+        if(root == p || root == q || ( leftTree !=null && rightTree !=null) ){
+            return root;
+        }
+        //leftTree和rightTree必然其中有一个为null,返回另外一边,这样就将状态往上传递
+        return leftTree == null ? rightTree:leftTree;
+    }
+
     public Boolean dfs(TreeNode root, TreeNode p, TreeNode q){
         if (root == null){
             return false;

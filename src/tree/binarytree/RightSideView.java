@@ -23,7 +23,10 @@ import java.util.List;
  */
 public class RightSideView {
     public static void main(String[] args) {
-
+        TreeNode node2 = new TreeNode(2, null, null);
+        TreeNode node1 = new TreeNode(1, node2, null);
+        RightSideView rightSideView = new RightSideView();
+        rightSideView.rightSideView2(node1);
     }
 
     /**
@@ -57,6 +60,28 @@ public class RightSideView {
             }
         }
         return var;
+    }
+    List<Integer> var = new LinkedList();
+
+    /**
+     * 深度优先搜索,根右左模型。depth+1可以实时记录当前深度,深度如果与var中个数相同,就代表达到了新深度,存入该节点。该节点就是深度当层最右侧的节点。
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView2(TreeNode root) {
+        dfs(root,0);
+        return var;
+    }
+
+    public void dfs(TreeNode root,int depth) {
+        if(root == null){
+            return;
+        }
+        if(depth == var.size()){
+            var.add(root.val);
+        }
+        dfs(root.right,depth+1);
+        dfs(root.left,depth+1);
     }
 
 

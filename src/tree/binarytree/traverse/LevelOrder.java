@@ -11,6 +11,18 @@ import java.util.stream.Collectors;
 /**
  * @Desc: 层级遍历
  * 给你二叉树的根节点 root ，返回其节点值的 层序遍历 。 （即逐层地，从左到右访问所有节点）。
+ * <p>
+ * 示例 1：
+ * 输入：root = [3,9,20,null,null,15,7]
+ * 输出：[[3],[9,20],[15,7]]
+ * <p>
+ * 示例 2：
+ * 输入：root = [1]
+ * 输出：[[1]]
+ * <p>
+ * 示例 3：
+ * 输入：root = []
+ * 输出：[]
  * @Author：zhh
  * @Date：2024/6/21 15:21
  */
@@ -28,13 +40,14 @@ public class LevelOrder {
     /**
      * 时间复杂度O(n^2) ,空间复杂度O(n^2)
      * 思路:由上而下循环迭代
+     *
      * @param root
      * @return
      */
     public static List<List<Integer>> levelOrder(TreeNode root) {
         ArrayList<List<Integer>> levelVar = new ArrayList<>();
         int depth = getDepth(root);
-        if(depth == 0){
+        if (depth == 0) {
             return levelVar;
         }
         ArrayList<List<TreeNode>> level = new ArrayList<>(depth);
@@ -48,10 +61,10 @@ public class LevelOrder {
             ArrayList<TreeNode> nodeList = new ArrayList<>();
             for (int j = 0; j < treeNodes.size(); j++) {
                 TreeNode treeNode = treeNodes.get(j);
-                if (treeNode.left!=null) {
+                if (treeNode.left != null) {
                     nodeList.add(treeNode.left);
                 }
-                if (treeNode.right!=null) {
+                if (treeNode.right != null) {
                     nodeList.add(treeNode.right);
                 }
             }
@@ -72,24 +85,24 @@ public class LevelOrder {
 
     public static List<List<Integer>> levelOrder2(TreeNode root) {
         ArrayList<List<Integer>> levelVar = new ArrayList<>();
-        if(root == null){
+        if (root == null) {
             return levelVar;
         }
         //初始化队列,先进先出,才能不影响后进入的node
         LinkedList<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         //队列为null,就代表着没有node进入队列了,tree遍历结束了。
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             //size代表每一层的节点个数
             int size = queue.size();
             ArrayList<Integer> nodeVars = new ArrayList<>(size);
             for (int i = 0; i < size; i++) {
                 TreeNode treeNode = queue.poll();
                 nodeVars.add(treeNode.val);
-                if (treeNode.left!=null) {
+                if (treeNode.left != null) {
                     queue.offer(treeNode.left);
                 }
-                if (treeNode.right!=null) {
+                if (treeNode.right != null) {
                     queue.offer(treeNode.right);
                 }
             }
@@ -107,23 +120,24 @@ public class LevelOrder {
 
     /**
      * 单纯层次遍历
+     *
      * @param root
      */
     public static void levelOrder3(TreeNode root) {
-        if(root == null){
-            return ;
+        if (root == null) {
+            return;
         }
         //初始化队列,先进先出,才能不影响后进入的node
         LinkedList<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         //队列为null,就代表着没有node进入队列了,tree遍历结束了。
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             TreeNode treeNode = queue.poll();
             System.out.println(treeNode.val);
-            if (treeNode.left!=null) {
+            if (treeNode.left != null) {
                 queue.offer(treeNode.left);
             }
-            if (treeNode.right!=null) {
+            if (treeNode.right != null) {
                 queue.offer(treeNode.right);
             }
         }

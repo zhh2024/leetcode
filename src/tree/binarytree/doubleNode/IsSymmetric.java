@@ -1,4 +1,6 @@
-package tree.binarytree;
+package tree.binarytree.doubleNode;
+
+import tree.binarytree.TreeNode;
 
 /**
  * @Desc: 判断树是否是轴对称

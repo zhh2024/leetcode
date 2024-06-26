@@ -1,4 +1,6 @@
-package tree.binarytree;
+package tree.binarytree.dfs_post;
+
+import tree.binarytree.TreeNode;
 
 /**
  * @Desc:

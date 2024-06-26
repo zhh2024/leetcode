@@ -104,4 +104,28 @@ public class LevelOrder {
         }
         return Math.max(getDepth(root.left), getDepth(root.right)) + 1;
     }
+
+    /**
+     * 单纯层次遍历
+     * @param root
+     */
+    public static void levelOrder3(TreeNode root) {
+        if(root == null){
+            return ;
+        }
+        //初始化队列,先进先出,才能不影响后进入的node
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        //队列为null,就代表着没有node进入队列了,tree遍历结束了。
+        while (!queue.isEmpty()){
+            TreeNode treeNode = queue.poll();
+            System.out.println(treeNode.val);
+            if (treeNode.left!=null) {
+                queue.offer(treeNode.left);
+            }
+            if (treeNode.right!=null) {
+                queue.offer(treeNode.right);
+            }
+        }
+    }
 }

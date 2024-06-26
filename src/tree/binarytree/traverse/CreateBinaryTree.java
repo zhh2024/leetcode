@@ -1,4 +1,4 @@
-package tree.binarytree.create;
+package tree.binarytree.traverse;
 
 import tree.binarytree.traverse.TraverseBinaryTree;
 import tree.binarytree.TreeNode;

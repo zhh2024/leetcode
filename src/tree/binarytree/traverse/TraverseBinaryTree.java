@@ -1,6 +1,6 @@
 package tree.binarytree.traverse;
 
-import tree.binarytree.TreeNode;
+import tree.TreeNode;
 
 import java.util.LinkedList;
 

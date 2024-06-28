@@ -1,6 +1,6 @@
 package tree.binarytree.doubleNode;
 
-import tree.binarytree.TreeNode;
+import tree.TreeNode;
 
 
 /**

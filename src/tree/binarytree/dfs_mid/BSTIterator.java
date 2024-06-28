@@ -1,6 +1,6 @@
 package tree.binarytree.dfs_mid;
 
-import tree.binarytree.TreeNode;
+import tree.TreeNode;
 
 import java.util.LinkedList;
 

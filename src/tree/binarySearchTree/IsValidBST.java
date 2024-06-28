@@ -1,4 +1,6 @@
-package tree.binarytree;
+package tree.binarySearchTree;
+
+import tree.TreeNode;
 
 /**
  * @Desc: 验证二叉搜索树

@@ -1,6 +1,6 @@
 package tree.binarytree.dfs_post;
 
-import tree.binarytree.TreeNode;
+import tree.TreeNode;
 
 /**
  * @Desc: 二叉树的最近公共祖先

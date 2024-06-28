@@ -1,6 +1,6 @@
 package tree.binarytree.backtrackStatus;
 
-import tree.binarytree.TreeNode;
+import tree.TreeNode;
 
 /**
  * @Desc: 完全二叉树的节点个数

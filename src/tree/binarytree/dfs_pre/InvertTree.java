@@ -1,6 +1,6 @@
 package tree.binarytree.dfs_pre;
 
-import tree.TreeNode;
+import tree.binarytree.TreeNode;
 
 /**
  * @Desc: 翻转二叉树

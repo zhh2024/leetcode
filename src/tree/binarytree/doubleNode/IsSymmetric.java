@@ -1,6 +1,6 @@
 package tree.binarytree.doubleNode;
 
-import tree.TreeNode;
+import tree.binarytree.TreeNode;
 
 /**
  * @Desc: 对称二叉树

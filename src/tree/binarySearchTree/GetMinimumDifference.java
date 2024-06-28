@@ -1,6 +1,6 @@
 package tree.binarySearchTree;
 
-import tree.TreeNode;
+import tree.binarytree.TreeNode;
 
 import java.util.LinkedList;
 
@@ -24,11 +24,8 @@ public class GetMinimumDifference {
 
     }
 
-    int min;
+    int min = Integer.MAX_VALUE;
     TreeNode pre;
-    //判断是否时首次
-    boolean flag = true;
-
     public int getMinimumDifference(TreeNode root) {
         LinkedList<TreeNode> stack = new LinkedList<>();
         while (root != null || !stack.isEmpty()) {
@@ -37,20 +34,26 @@ public class GetMinimumDifference {
                 root = root.left;
             } else {
                 TreeNode node = stack.pop();
-                if (pre == null) {
-                    min = node.val;
-                } else {
-                    if (flag) {
-                        min = node.val - pre.val;
-                        flag = false;
-                    } else {
-                        min = Math.min(node.val - pre.val, min);
-                    }
+                if (pre != null) {
+                    min = Math.min(node.val - pre.val, min);
                 }
                 pre = node;
                 root = node.right;
             }
         }
+        return min;
+    }
+
+    public int dfs(TreeNode root){
+        if(root == null){
+            return min;
+        }
+        dfs(root.left);
+        if (pre != null) {
+            min = Math.min(root.val - pre.val, min);
+        }
+        pre = root;
+        dfs(root.right);
         return min;
     }
 }

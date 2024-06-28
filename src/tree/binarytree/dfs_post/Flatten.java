@@ -1,6 +1,6 @@
 package tree.binarytree.dfs_post;
 
-import tree.TreeNode;
+import tree.binarytree.TreeNode;
 
 /**
  * @Desc: 二叉树展开为链表

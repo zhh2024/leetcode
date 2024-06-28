@@ -1,6 +1,7 @@
 package tree.binarytree.traverse;
 
-import tree.TreeNode;
+import tree.binarytree.traverse.TraverseBinaryTree;
+import tree.binarytree.TreeNode;
 
 /**
  * @Desc: 利用遍历创建二叉树

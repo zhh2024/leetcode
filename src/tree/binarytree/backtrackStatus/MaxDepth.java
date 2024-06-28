@@ -1,6 +1,6 @@
 package tree.binarytree.backtrackStatus;
 
-import tree.TreeNode;
+import tree.binarytree.TreeNode;
 
 import java.util.LinkedList;
 

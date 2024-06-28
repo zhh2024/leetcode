@@ -24,6 +24,10 @@ public class GetMinimumDifference {
 
     }
 
+    /**
+     * 思路: 中序遍历,给定一个pre变量和min变量,min初始化为最大值。如果pre不为null,当前node.var - pre.var 与 min 进行比较,重新赋值min
+     * 然后将当先node赋值给pre,这样利用pre和min就可以在递归过程中求出最小值。
+     */
     int min = Integer.MAX_VALUE;
     TreeNode pre;
     public int getMinimumDifference(TreeNode root) {

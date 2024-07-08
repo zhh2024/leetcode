@@ -79,6 +79,38 @@ public class ReverseBetween {
     }
 
     /**
+     * 对上述代码进行优化,增加哑巴节点
+     * @param head
+     * @param left
+     * @param right
+     * @return
+     */
+    public ListNode reverseBetween03(ListNode head, int left, int right) {
+        ListNode dummyNode = new ListNode();
+        dummyNode.next = head;
+        ListNode pre = dummyNode;
+        //先找head的前置节点,在此节点翻转
+        for (int i = 1; i < left ; i++) {
+            pre = pre.next;
+        }
+        //翻转
+        ListNode newHead = pre.next;
+        ListNode newPre = null;
+        for (int i = left; i <= right; i++) {
+            ListNode tmp = newHead.next;
+            newHead.next = newPre;
+            newPre = newHead;
+            newHead = tmp;
+        }
+        //连接
+        pre.next.next = newHead;
+        pre.next = newPre;
+        return dummyNode.next;
+    }
+
+    /**
+     * 上面的代码,翻转后,翻转范围的head和tail会调换位置,需要重新连接,有没有一种不需要重新连接的实现思路呢？
+     * 要实现不需要重新连接 至少需要两个节点,因为一个节点无需翻转,最少两个节点将当前节点的后面一个节点抽出来,变成新head。 当前节点的next重新指向,当前节点不变继续抽取后面一个节点
      * 解题思路: 穿针引线
      * 1. 遍历找到要翻转范围的前一个节点pre
      * 2. 翻转范围的第一个节点就是翻转后的最后一个节点,那么这个节点不应该变化,它的next节点应该在遍历中变化,这个节点为curr节点
@@ -99,13 +131,16 @@ public class ReverseBetween {
         for (int i = 1; i < left; i++) {
             pre = pre.next;
         }
-        //进行穿针引线,pre.next指向头节点,curr重新指向下一个节点,curr始终不变
+        //穿针引线,无需重新连接,将当前节点的后面一个节点抽出来,变成新head。
         ListNode curr = pre.next;
+        //不能<=。因为是抽的当前节点的下一个节点为head,所以当前的下一个节点必须在翻转范围内。
         for (int i = left; i < right; i++) {
-            ListNode next = curr.next;
-            curr.next = next.next;
-            next.next = pre.next;
-            pre.next = next;
+            //curr不动,更改curr的next指向
+            ListNode newHead = curr.next;
+            curr.next = newHead.next;
+            //重新定义head
+            newHead.next = pre.next;
+            pre.next = newHead;
         }
         //left==1的时候, 分两种情况 节点只有一个,dummyNode.next 就是head
         //                        节点有多个, dummyNode.next 就是翻转后的头节点

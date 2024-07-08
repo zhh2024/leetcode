@@ -61,6 +61,8 @@ public class HasCycle {
      * 3.同时遍历快慢指针
      * 4.慢指针 low = low.next
      * 5.快指针 fast = fast.next.next
+     *
+     * 只需要判断快指针  空指针条件即可
      * @param head
      * @return
      */

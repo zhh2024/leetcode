@@ -61,6 +61,30 @@ public class MergeTwoLists {
         return dummyNode.next;
     }
 
+    /**
+     * 上面的代码是会跳过该节点继续遍历,pre是平行的
+     * 思路: 遍历一直往前,pre上下穿梭,更改遍历前的指向。
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public ListNode mergeTwoLists03(ListNode list1, ListNode list2) {
+        ListNode dummyNode = new ListNode();
+        ListNode pre = dummyNode;
+        while (list1!=null && list2!=null){
+            if(list1.val < list2.val){
+                pre.next = list1;
+                list1 = list1.next;
+            }else {
+                pre.next = list2;
+                list2 = list2.next;
+            }
+            pre = pre.next;
+        }
+        pre.next = list1 ==null?list2:list1;
+        return dummyNode.next;
+    }
+
     public static ListNode mergeTwoLists02(ListNode list1, ListNode list2){
         if(list1 == null){
             return list2;

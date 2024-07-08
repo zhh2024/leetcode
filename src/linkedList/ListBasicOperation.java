@@ -6,6 +6,14 @@ package linkedList;
  * @Date：2024/4/4 21:25
  */
 public class ListBasicOperation {
+    public static void main(String[] args) {
+        ListNode n5 = new ListNode(5,null);
+        ListNode n4 = new ListNode(4,n5);
+        ListNode n3 = new ListNode(3,n4);
+        ListNode n2 = new ListNode(2,n3);
+        ListNode n1 = new ListNode(1,n2);
+        ListNode newHead = reverse02(n1);
+    }
 
     private ListNode head;
     private ListNode tail;
@@ -94,5 +102,39 @@ public class ListBasicOperation {
             }
             curr = curr.next;
         }
+    }
+
+    /**
+     * 链表翻转,普通翻转,只针对一个节点
+     */
+    public static ListNode reverse01(ListNode node){
+        //pre是一直在变化的
+        ListNode pre = null;
+        while (node != null){
+            ListNode next = node.next;
+            node.next = pre;
+            pre = node;
+            node = next;
+        }
+        return pre;
+    }
+
+    /**
+     * 链表翻转,穿针引线,至少两个节点
+     */
+    public static ListNode reverse02(ListNode node){
+        //pre在此时是不可变的,就不需要dummyNode
+        ListNode pre = new ListNode();
+        pre.next = node;
+        ListNode curr = pre.next;
+        while (curr != null && curr.next != null){
+            //抽出next作为head。curr不变,curr.next一直在变化变化
+            ListNode newHead = curr.next;
+            curr.next = newHead.next;
+            //pre指向新head
+            newHead.next = pre.next;
+            pre.next = newHead;
+        }
+        return pre.next;
     }
 }

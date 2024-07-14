@@ -43,7 +43,11 @@ public class SimplifyPath {
         String[] split = path.split("/");
     }
     /**
-     * 双向队列, 进的时候利用栈特性消除,出的时候再利用队列出去。
+     * 思路:
+     * 1. 先通过/对字符串进行拆分成字符串数组
+     * 2. 遍历该数组如果字符串是.. ,进行消除,弹出栈
+     * 3. 如果是. 不进栈
+     * 4. 最终再遍历栈,拼接/
      */
     public String simplifyPath(String path) {
         String[] split = path.split("/");

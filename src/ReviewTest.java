@@ -11,8 +11,6 @@ public class ReviewTest {
         //merge(nums1,3,nums2,3);
         System.out.println("04");
 
-
-        //merge(nums1,3,nums2,4);
         System.out.println("01");
 
         int[] nums = {1,2,3,4,2,2};

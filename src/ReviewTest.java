@@ -8,7 +8,7 @@ public class ReviewTest {
         int[] nums1 = {1,2,3,0,0,0};
         int[] nums2 = {2,5,6};
         //merge(nums1,3,nums2,4);
-        System.out.println("01");
+        System.out.println("02");
         int[] nums = {1,2,3,4,2,2};
         System.out.println(removeElement(nums,2));
     }

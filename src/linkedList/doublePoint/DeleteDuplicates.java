@@ -1,4 +1,4 @@
-package linkedList.dummyNode;
+package linkedList.doublePoint;
 
 import linkedList.ListNode;
 

@@ -1,5 +1,6 @@
 package linkedList.hashMap;
 
+import linkedList.ListNode;
 import linkedList.Node;
 
 import java.util.HashMap;
@@ -44,66 +45,123 @@ public class CopyRandomList {
             node1.next = p;
             node1 = p;
         }
-        Node node = copyRandomList02(head);
+        Node node = copyRandomList04(head);
         System.out.println(node);
     }
 
+
     /**
-     * 时间复杂度 O(n) 空间复杂度O(n)
-     * 解题思路:
-     *  1. 进行深拷贝,难点就是有个random引用,遍历过程中无法获取random指向的节点
-     *     而且新的node节点也没有random值
-     *  2. 循环遍历,尾插法构成新的链表,在此过程中,新老节点顺序一一对应,此时可以借助下标来做映射
-     *  3. 为什么要做映射,因为新节点没有random引用,random引用只在老节点有
-     *     所以得通过老节点获取random对应的下标
-     *     此时这个下标映射到新链表就是新节点的random引用指向。
-     *
+     * 不能将val作为key,因为val不唯一,需要寻找唯一的值来做映射
      * @param head
      * @return
      */
     public Node copyRandomList(Node head) {
-        //用下标来做映射关系
-        HashMap<Node, Integer> oldMap = new HashMap<>();
-        HashMap<Integer, Node> newMap = new HashMap<>();
-        Node newHead = null;
-        Node newTail = null;
-        int index = 0;
+        HashMap<Integer, Node> map = new HashMap<>();
+
+        Node dummyNode = new Node(-1);
+        Node tail = dummyNode;
         Node curr = head;
-        //构成新链表
-        while (head!=null){
-            Node node;
-            if(newHead == null){
-                node = new Node(head.val);
-                newHead = newTail = node;
-            }else {
-                node = new Node(head.val);
-                newTail.next = node;
-                newTail = node;
-            }
-            oldMap.put(head,index);
-            newMap.put(index,node);
-            head = head.next;
-            index++;
-        }
-        //新链表进行random赋值,与存放random的老节点进行下标映射
-        Node newCurr = newHead;
-        while (curr!=null){
-            Node random = curr.random;
-            Integer i = oldMap.get(random);
-            newCurr.random = newMap.get(i);
-            newCurr = newCurr.next;
+        while (curr != null){
+            int val = curr.val;
+            Node newNode = new Node(val);
+            tail.next = newNode;
+            tail = newNode;
+            map.put(curr.val,newNode);
             curr = curr.next;
         }
-        return newHead;
+
+        while (head != null){
+            Node node = map.get(head.val);
+            Node random = head.random;
+            if(random != null){
+                node.random = map.get(random.val);
+            }else {
+                node.random = null;
+            }
+            head = head.next;
+        }
+        return dummyNode.next;
     }
 
     /**
      * 时间复杂度 O(n) 空间复杂度O(n)
+     * 解题思路: 老Node作为key
+     *  1. 进行深拷贝,难点就是有个random引用,遍历过程中无法获取random指向的节点
+     *     而且新的node节点也没有random值
+     *  2. 循环遍历,尾插法构成新的链表,在此过程中,新老节点一一对应
+     *  3. 为什么要做映射,因为新节点没有random引用,random引用只在老节点有,所以得通过老节点获取random
+     *     老random也是老节点,map中映射对应新的节点
+     *
+     *  难点: 以下标作为唯一key映射,因为两个链表,所以需要map做映射,老Node作为key
+     * @param head
+     * @return
+     */
+    public Node copyRandomList02(Node head) {
+        HashMap<Node, Node> map = new HashMap<>();
+
+        Node dummyNode = new Node(-1);
+        Node tail = dummyNode;
+        Node curr = head;
+        while (curr != null){
+            int val = curr.val;
+            Node newNode = new Node(val);
+            tail.next = newNode;
+            tail = newNode;
+            map.put(curr,newNode);
+
+            curr = curr.next;
+        }
+
+        while (head != null){
+            Node node = map.get(head);
+            Node random = head.random;
+            if(random != null){
+                node.random = map.get(random);
+            }else {
+                node.random = null;
+            }
+            head = head.next;
+        }
+        return dummyNode.next;
+    }
+
+    /**
+     * 简化copyRandomList02,取消掉尾插法,构成next放到第二个循环
+     * @param head
+     * @return
+     */
+    public Node copyRandomList03(Node head) {
+        HashMap<Node, Node> map = new HashMap<>();
+        Node curr = head;
+        while (curr != null){
+            Node newNode = new Node(curr.val);
+            map.put(curr,newNode);
+            curr = curr.next;
+        }
+        curr = head;
+        while (curr != null){
+            Node node = map.get(curr);
+            node.next = map.get(curr.next);
+
+            Node random = curr.random;
+            if(random != null){
+                node.random = map.get(random);
+            }else {
+                node.random = null;
+            }
+            curr = curr.next;
+        }
+        return map.get(head);
+    }
+
+
+    /**
+     * 本质和copyRandomList03一样,第一次递归构成新链表,并且放入map 。第二次递归赋值random
+     * 时间复杂度 O(n) 空间复杂度O(n)
      * 解题思路: 回溯+哈希表
-     * map的作用,random递归时不再创建新的对象
      */
     static HashMap<Node, Node> map = new HashMap<>();
-    public static Node copyRandomList02(Node head) {
+    public static Node copyRandomList04(Node head) {
         if(head == null){
             return null;
         }
@@ -111,14 +169,41 @@ public class CopyRandomList {
             Node newNode = new Node(head.val);
             map.put(head,newNode);
             //先进入next递归,相当于遍历了一次,将新链表节点都创建完毕
-            newNode.next = copyRandomList02(head.next);
+            newNode.next = copyRandomList04(head.next);
             //此时是在新链表的尾节点往头节点进行遍历,所以是回溯,此时对象都已经创建,就不能再进入next递归,直接获取节点即可
             //但是传入的是老节点,需要的是新链表节点
             //所以需要定义一个全局变量的map来存储新老节点映射关系
-            newNode.random = copyRandomList02(head.random);
+            newNode.random = copyRandomList04(head.random);
         }
         return map.get(head);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

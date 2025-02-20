@@ -86,14 +86,15 @@ public class ReverseBetween {
      * @return
      */
     public ListNode reverseBetween03(ListNode head, int left, int right) {
+        //创建一个虚拟头节点，用于简化边界条件处理
         ListNode dummyNode = new ListNode();
         dummyNode.next = head;
         ListNode pre = dummyNode;
-        //先找head的前置节点,在此节点翻转
+        //定位翻转区间的前一个节点
         for (int i = 1; i < left ; i++) {
             pre = pre.next;
         }
-        //翻转
+        //翻转区间内的节点
         ListNode newHead = pre.next;
         ListNode newPre = null;
         for (int i = left; i <= right; i++) {
@@ -147,5 +148,7 @@ public class ReverseBetween {
         //left>1的时候, dummyNode.next 就是head
         return dummyNode.next;
     }
+
+
 
 }

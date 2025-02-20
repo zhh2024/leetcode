@@ -16,6 +16,7 @@ import java.util.HashSet;
 public class HasCycle {
 
     public static void main(String[] args) {
+
         ListNode head = null;
         ListNode tail = null;
         ListNode temp;
@@ -81,7 +82,4 @@ public class HasCycle {
         }
         return true;
     }
-
-
-
 }

@@ -121,4 +121,5 @@ public class RemoveNthFromEnd {
         lowCurr.next = lowCurr.next.next;
         return dummyNode.next;
     }
+
 }

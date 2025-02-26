@@ -1,5 +1,8 @@
 package tree.binarytree;
 
+
+import java.util.LinkedList;
+
 /**
  * @Author：zhh
  * @Date：2023/8/25 20:05
@@ -24,4 +27,21 @@ public class TreeNode {
         this.left = left;
         this.right = right;
     }
+
+
+    public void stack(TreeNode root) {
+        LinkedList<TreeNode> nodes = new LinkedList<>();
+        while (root != null || !nodes.isEmpty() ){
+            if(root != null){
+                nodes.push(root);
+                root = root.left;
+            }else {
+                TreeNode pop = nodes.pop();
+                root = pop.right;
+            }
+        }
+    }
+
+
+
 }

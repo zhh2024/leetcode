@@ -102,4 +102,72 @@ public class FindSubstring {
         return true;
     }
 
+
+    /**
+     * 代码优化:
+     * 1.
+     * 2.
+     * 3.
+     * @param s
+     * @param words
+     * @return
+     */
+    public List<Integer> findSubstring02(String s, String[] words) {
+        List<Integer> result = new ArrayList<>();
+        if (words == null || words.length == 0 || s == null || s.length() == 0) return result;
+
+        int wordLen = words[0].length();
+        int totalWords = words.length;
+        int windowLen = wordLen * totalWords;
+        if (s.length() < windowLen) return result;
+
+        // 构建目标词频表
+        Map<String, Integer> targetMap = new HashMap<>();
+        for (String word : words) {
+            targetMap.put(word, targetMap.getOrDefault(word, 0) + 1);
+        }
+
+        // 遍历所有可能的起始偏移
+        for (int i = 0; i < wordLen; i++) {
+            Map<String, Integer> currentMap = new HashMap<>();
+            int left = i, right = i, matched = 0;
+
+            while (right + wordLen <= s.length()) {
+                String currentWord = s.substring(right, right + wordLen);
+                right += wordLen;
+
+                // 如果单词不在目标中，重置窗口
+                if (!targetMap.containsKey(currentWord)) {
+                    currentMap.clear();
+                    matched = 0;
+                    left = right;
+                    continue;
+                }
+
+                // 更新当前词频
+                currentMap.put(currentWord, currentMap.getOrDefault(currentWord, 0) + 1);
+                if (currentMap.get(currentWord).equals(targetMap.get(currentWord))) {
+                    matched++;
+                }
+
+                // 收缩窗口：当窗口单词数超过总数时
+                while ((right - left) / wordLen > totalWords) {
+                    String leftWord = s.substring(left, left + wordLen);
+                    left += wordLen;
+                    if (currentMap.get(leftWord).equals(targetMap.get(leftWord))) {
+                        matched--;
+                    }
+                    currentMap.put(leftWord, currentMap.get(leftWord) - 1);
+                }
+
+                // 检查是否完全匹配
+                if (matched == targetMap.size()) {
+                    result.add(left);
+                }
+            }
+        }
+
+        return result;
+    }
+
 }

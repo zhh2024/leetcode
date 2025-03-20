@@ -1,4 +1,4 @@
-package Sorting;
+package sorting;
 
 /**
  * @Author：zhh

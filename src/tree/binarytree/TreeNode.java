@@ -28,6 +28,9 @@ public class TreeNode {
         this.right = right;
     }
 
+    public TreeNode(int val) {
+        this.val = val;
+    }
 
     public void stack(TreeNode root) {
         LinkedList<TreeNode> nodes = new LinkedList<>();

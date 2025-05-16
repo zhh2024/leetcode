@@ -34,6 +34,7 @@ public class SortList {
     }
 
     public ListNode sortList(ListNode head, ListNode tail){
+        //递归的终止条件是链表的节点个数小于或等于 1，即当链表为空或者链表只包含 1 个节点时，不需要对链表进行拆分和排序。
         if (head == null) {
             return head;
         }

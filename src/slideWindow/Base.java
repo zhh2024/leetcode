@@ -17,7 +17,7 @@ public class Base {
         int r = 0;
         //外层循环扩展右边界，内层循环扩展左边界
         for (; r < s.length() ; r++) {
-            //当前考虑的元素 与 区间[left,right]不符合题意
+            //左边界收缩条件
             while (l <= r && check()) {
                 //扩展左边界
             }

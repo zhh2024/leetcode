@@ -1,7 +1,5 @@
 package hashMap;
 
-import java.util.HashMap;
-
 /**
  * @Desc: 基础 1.记录字符串中每个字符出现的字符个数
  * 这种单字符场景,字符有26个,从小到大, a- 'a' 就是字符a在cns的起始下标,后面26个字母就是累加

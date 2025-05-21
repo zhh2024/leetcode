@@ -1,7 +1,6 @@
 package linkedList.hashMap;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 /**
  * @Desc: 请你设计并实现一个满足  LRU (最近最少使用) 缓存 约束的数据结构。
@@ -13,53 +12,109 @@ import java.util.LinkedList;
               则应该 逐出 最久未使用的关键字。
          函数 get 和 put 必须以 O(1) 的平均时间复杂度运行。
 
-         哈希表存数据, linekedList用来更改优先级,每get一次 删除掉并放到head,达到容量移除掉尾节点
-         缺点: 使用linkedList,remove时间复杂度是O(n)
+   待优化: TODO reHead和插入的时候,都需要考虑是否是头尾节点,防止为null,代码量很多,比较复杂繁琐。
+          初始化创造头尾虚节点,就不需要判断是否是头尾节点,就不会出现null了
  * @Author：zhh
  * @Date：2024/4/4 15:32
  */
 public class LRUCache {
     public static void main(String[] args) {
         LRUCache lRUCache = new LRUCache(2);
-        lRUCache.put(1, 1); // 缓存是 {1=1}
-        lRUCache.put(2, 2); // 缓存是 {1=1, 2=2}
-        System.out.println(lRUCache.get(1));    // 返回 1
-        lRUCache.put(3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
-        System.out.println(lRUCache.get(2));    // 返回 -1 (未找到)
-        lRUCache.put(4, 4); // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}
-        System.out.println(lRUCache.get(1));    // 返回 -1 (未找到)
-        System.out.println(lRUCache.get(3));    // 返回 3
-        System.out.println(lRUCache.get(4));    // 返回 4
+        lRUCache.put(1, 1);
+        lRUCache.put(2, 2);
+        System.out.println(lRUCache.get(1));
+        lRUCache.put(3, 3);
+        System.out.println(lRUCache.get(2));
+        lRUCache.put(4, 4);
+        System.out.println(lRUCache.get(1));
+        System.out.println(lRUCache.get(3));
+        System.out.println(lRUCache.get(4));
     }
-    private HashMap<Integer, Integer> map;
-    private LinkedList<Integer> linkedList;
+    private Node head;
+
+    private Node tail;
+
     private int size;
+
+    private int capacity;
+
+    private HashMap<Integer, Node> map = new HashMap<>();
+
     public LRUCache(int capacity) {
-        map = new HashMap<>();
-        linkedList = new LinkedList<>();
-        size = capacity;
+        this.capacity = capacity;
     }
 
     public int get(int key) {
-        if(map.containsKey(key)){
-            //重新排序,此时key优先级第一
-            linkedList.remove((Object)key);
-            linkedList.addFirst(key);
-            return map.get(key);
+        if (!map.containsKey(key)) {
+            return -1;
         }
-        return -1;
+        Node node = map.get(key);
+        //将该node放到头结点,(因为要移动到头结点,所以必须得用双向链表,单链表做不到O(1)移动)因为是最新触发使用的
+        reHead(node);
+        return node.value;
     }
 
     public void put(int key, int value) {
-        if(map.containsKey(key)){
-            linkedList.remove((Object)key);
+        if (map.containsKey(key)) {
+            Node node = map.get(key);
+            node.value = value;
+            //将该node放到头结点,(因为要移动到头结点,所以必须得用双向链表,单链表做不到O(1)移动)因为是最新触发使用的
+            reHead(node);
+            return;
         }
-        if(linkedList.size() > 0 && linkedList.size() == size){
-            //移出去最先进去的key
-            Integer removeKey = linkedList.removeLast();
-            map.remove(removeKey);
+        if(size >= capacity){
+            //移除最后尾节点
+            map.remove(tail.key);
+            Node prev = tail.prev;
+            tail.prev = null;
+            if(prev != null){
+                prev.next = null;
+                tail = prev;
+            }
+            size--;
         }
-        linkedList.addFirst(key);
-        map.put(key,value);
+        //插入: 头插法
+        Node node = new Node(null, key, value, null);
+        if(head == null){
+            head = tail = node;
+        }else {
+            head.prev = node;
+            node.next = head;
+            head = node;
+        }
+        map.put(key,node);
+        size++;
+
+    }
+    public void reHead(Node node){
+        if(node != head){
+            Node next = node.next;
+            Node prev = node.prev;
+            //如果是尾节点
+            if(node == tail && prev != null){
+                tail = prev;
+                prev.next = null;
+            }else {
+                prev.next = next;
+                next.prev = prev;
+            }
+            node.prev = null;
+            node.next = head;
+            head.prev = node;
+            head = node;
+        }
+    }
+
+    class Node {
+        int key;
+        int value;
+        Node next;
+        Node prev;
+        Node(Node prev, int key, int value, Node next) {
+            this.key = key;
+            this.value = value;
+            this.next = next;
+            this.prev = prev;
+        }
     }
 }

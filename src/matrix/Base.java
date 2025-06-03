@@ -187,4 +187,19 @@ public class Base {
         }
     }
 
+    /**
+     * 使用二维数组的数据结构,判断元素是否出现过
+     * @param matrix
+     */
+    public static void exist(int[][] matrix){
+        int row = matrix.length;
+        int col = matrix[0].length;
+        boolean[][] visited = new boolean[row][col];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                visited[i][j] = true;
+            }
+        }
+    }
+
 }

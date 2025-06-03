@@ -74,6 +74,7 @@ public class LengthOfLongestSubstring {
             maxLen = Math.max(maxLen,r - l + 1 );
         }
         return maxLen;
+
     }
 
 

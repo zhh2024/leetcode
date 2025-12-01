@@ -1,5 +1,7 @@
 package sorting;
 
+import java.util.Arrays;
+
 /**
  * @Author：zhh
  * @Date：2023/6/7 14:02
@@ -13,6 +15,7 @@ package sorting;
  * 最好时间复杂度：O(n)
  * 最坏时间复杂度：O(n²)
  * 平均时间复杂度：O(n²)
+ * 插入排序比冒泡和选择排序好, 因为冒泡,选择不管什么情况都需要完整的把数组遍历完毕,都是O(n²)
  *
  *
  * 类似于整理扑克牌，每次将一个元素插入到已经排序好的序列中的适当位置
@@ -32,38 +35,11 @@ package sorting;
 public class InsertSort {
     public static void main(String[] args) {
         int[] is = {1,5,8,6,7,9,2,4,5,3};
-        /*fromRigthtToLeft(is);
-        for (int i = 0; i < is.length; i++) {
-            System.out.println(is[i]);
-        }*/
-        test2();
+        test2(is);
+        System.out.println(Arrays.toString(is));
     }
 
-
-    public static void fromRigthtToLeft(int[] is){
-        for (int i = 1; i < is.length; i++) {
-            int insert = is[i];
-            //i看成新数组长度,j看成新数组长度-1的最大下标
-            int j = i-1;
-            for ( ; j >=0 ; j--) {
-                if(is[j] > insert ){
-                    //向右移动
-                    is[j+1] = is[j];
-                }else {
-                    break;
-                }
-            }
-            //插入
-            is[j+1] = insert;
-        }
-    }
-
-
-
-
-
-    public static void test2() {
-        int[] is = {5,3,6,2,7,1};
+    public static void test2(int[] is) {
         //这个循环，是拿出当前值去插入到已经排好序的数组
         for (int i = 1; i < is.length; i++) {
             int curr = is[i];
@@ -80,10 +56,30 @@ public class InsertSort {
             //当 curr 需要插入到已排序部分的第一个位置时（即所有已排序元素都比 curr 大），内层循环会执行到 j = -1 退出循环，但此时没有将 curr 插入到正确位置，导致数据丢失。
             is[j+1] = curr;
         }
-        for (int i = 0; i < is.length; i++) {
-            System.out.println(is[i]);
+    }
+
+    /**
+     * 优化代码
+     * @param nums
+     */
+    public void insertSort(int[] nums){
+        for (int i = 1; i < nums.length; i++) {
+            int insertNum = nums[i];
+            int j = i - 1;
+            //如果已经是有序,此循环根本进不去,达不到nums[j] > insertNum这个条件,所以最好情况是O(n)
+            for (; j >= 0 && nums[j] > insertNum; j--) {
+                swap(nums,j,j + 1);
+            }
+            nums[j + 1] = insertNum;
         }
     }
 
 
+    public void swap (int[] nums, int i , int j){
+        nums[i] = nums[i] ^ nums[j];
+        //此时i = i ^j   j = i ^ j & j = i
+        nums[j] = nums[i] ^ nums[j];
+        //此时i = i ^j ,j = i,  i = i ^ j ^ i = j
+        nums[i] = nums[i] ^ nums[j];
+    }
 }

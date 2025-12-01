@@ -24,7 +24,7 @@ public class GenerateParenthesis {
 
     public static void main(String[] args) {
         GenerateParenthesis generateParenthesis = new GenerateParenthesis();
-        List<String> strings = generateParenthesis.generateParenthesis(3);
+        List<String> strings = generateParenthesis.generateParenthesis(4);
         System.out.println(strings.toString());
     }
 
@@ -62,5 +62,7 @@ public class GenerateParenthesis {
             cur.deleteCharAt(cur.length()-1);
         }
     }
+
+
 
 }

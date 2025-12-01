@@ -68,25 +68,27 @@ public class SearchMatrix {
     /**
      * 思想: 一次二分,将二维矩阵的元素看成单行元素
      * 然后利用矩阵规则,可以通过行列,获取对应的下标
-     * num / row 商就代表所在行
-     * num % row 余数就代表所在列
+     * num / width 商就代表所在行
+     * num % width 余数就代表所在列
      * @param matrix
      * @param target
      * @return
      */
     public boolean searchMatrix02(int[][] matrix, int target) {
-        int row = matrix[0].length;
-        int col = matrix.length;
-        int left =0;
-        int right = row * col -1;
+        int length = matrix.length;
+        int width = matrix[0].length;
+        int left = 0;
+        int right = length * width - 1;
+
         while (left <= right){
-            int mid = ((right - left ) >> 1) + left;
-            if (matrix[mid / row][ mid % row] == target) {
+            int mid = left + (right- left)/2;
+            int midNum = matrix[mid / width][mid % width];
+            if(midNum == target){
                 return true;
-            }else if (matrix[mid / row][ mid % row] < target){
+            }else if(midNum < target){
                 left = mid + 1;
             }else {
-                right = mid - 1;
+                right = mid -1;
             }
         }
         return false;

@@ -19,7 +19,7 @@ public class FindPeakElement {
      */
     public static int findPeakElement(int[] nums) {
         int left=0,right=nums.length-1;
-        while (left<right){
+        while (left < right){
             int mid = ((right-left) >> 1 ) + left;
             //为什么mid+1不会越界，1.是因为 while条件left<right,触发了这个条件就肯定>=2,
             // 2. mid计算((right-left) >> 1 ) ,比如3/2，不足2,就选1，是逼近left的
@@ -28,7 +28,7 @@ public class FindPeakElement {
                 //右侧
                 left = mid +1;
             }else {
-                //左侧,但是此时mid值并没有与mid-1比较，所以mid值有可能是峰值
+                //左侧,但是此时mid值并没有与mid-1比较，所以mid值有可能是峰值。
                 right = mid;
             }
         }

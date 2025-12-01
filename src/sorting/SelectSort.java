@@ -20,21 +20,7 @@ public class SelectSort {
     public static void main(String[] args) {
         int[] is = {1,5,8,6,7,9,2,4,5,3};
 
-        for (int i = 0; i < is.length; i++) {
-            int minNum = is[i];
-            for (int j = i+1; j < is.length; j++) {
-                int nextNum = is[j];
-                if(minNum >nextNum){
-                    is[i] = nextNum;
-                    is[j] = minNum;
-                    minNum=nextNum;
-                }
-            }
-        }
 
-        /**
-         * 第二种可以减少交换次数
-         */
         for (int i = 0; i < is.length; i++) {
             int min = i;
             for (int j = i+1; j < is.length; j++) {

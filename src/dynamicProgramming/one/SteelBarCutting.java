@@ -1,4 +1,4 @@
-package dynamicProgramming;
+package dynamicProgramming.one;
 
 /**
  * @Desc: 钢筋切割问题

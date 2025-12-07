@@ -148,8 +148,7 @@ public class MinWindow {
      * 优化点2: 窗口内的字符如果存在t中则存入map2,减少map2大小,并且比较的时候时间复杂度更低
      * 优化点3: substring从while抽出来,只记录最小的边界,最后再substring
      *
-     * 剩余优化4: l指针收缩的时候,没必要一个一个收缩,只需要定位到map2中最小的小标收缩即可，不需要一个一个收缩,因为遇到不存在t中字符串的下标,收缩后比较没意义。
-     * @param s
+     * * @param s
      * @param t
      * @return
      */

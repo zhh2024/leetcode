@@ -32,22 +32,33 @@ public class Flatten {
         TreeNode node1 = new TreeNode(1, node2, node5);
     }
 
-    public static void flatten(TreeNode root) {
-        if (root == null) {
-            return;
+    /**
+     * 思路: 所就是先把左子树展开成链表，找到链表的尾节点，再把右子树展开成链表，然后接到左子树的链表上
+     * 注意点: 找左子树的尾结点需要遍历到末尾再接右子数的头结点
+     * @param root
+     */
+    public void flatten(TreeNode root) {
+
+        digui(root);
+
+    }
+
+    public TreeNode digui(TreeNode root){
+        if(root == null){
+            return null;
         }
-        flatten(root.left);
-        flatten(root.right);
-        //调换位置
-        TreeNode tmp = root.right;
-        if (root.left != null) {
-            root.right = root.left;
-            TreeNode curr = root.right;
-            while (curr.right != null) {
-                curr = curr.right;
-            }
-            curr.right = tmp;
-            root.left = null;
+        TreeNode leftTree = digui(root.left);
+        TreeNode rightTree = digui(root.right);
+        root.left = null;
+        if(leftTree == null){
+            return root;
         }
+        root.right = leftTree;
+        TreeNode current = leftTree;
+        while (current.right != null){
+            current = current.right;
+        }
+        current.right = rightTree;
+        return root;
     }
 }

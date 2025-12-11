@@ -28,6 +28,9 @@ public class TreeNode {
         this.right = right;
     }
 
+    public TreeNode() {
+    }
+
     public TreeNode(int val) {
         this.val = val;
     }

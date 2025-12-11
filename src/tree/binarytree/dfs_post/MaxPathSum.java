@@ -32,45 +32,28 @@ public class MaxPathSum {
         System.out.println(maxPathSum.maxPathSum(node1));
     }
     int max = Integer.MIN_VALUE;
-    public int maxPathSum(TreeNode root) {
-        int dfs = dfs2(root);
-        return Math.max(max,dfs);
-    }
-    /**
-     * 思路1: 比思路2多思考了leftVar,rightVar。
-     */
-    public int dfs(TreeNode root){
-        if(root == null){
-            return Integer.MIN_VALUE >> 2;
-        }
-        int leftVar = dfs(root.left);
-        int rightVar = dfs(root.right);
-        //总共六种场景 leftVar,rightVar,root,leftVar + root.val,rightVar + root.val, leftVar + root.val + rightVar
-        int sum = leftVar + root.val + rightVar;
-        //只需要考虑,leftVar,rightVar,sum谁大就暂存起来，可以构成路径的返回局部最优了,最终会与max比较,所以无需考虑 root与其他组合。
-        max = Math.max(max,Math.max(Math.max(leftVar,rightVar),sum));
-        return Math.max (root.val,Math.max(leftVar + root.val, rightVar + root.val));
-    }
-
 
     /**
-     * 思路2 :
-     * 1. 有四种情况,root.val,leftVar + root.val,rightVar + root.val,leftVar + root.val + rightVar
-     * 2. 把四四种情况的最大值(当前子树最优解,比之前的最优解强，就是目前二叉树局部最优解)暂存,继续递归,最终求出全局最优解。
-     * 3. 继续递归的条件,选择root.val,leftVar + root.val,rightVar + root.val中的最优解返回继续构成路径。
+     * 思路 :
+     * 1. 不能向上延伸场景: 根右形成一个闭环，整个路径无法再向上延伸，所以此场景需要特别计算当前最大值。
+     * 2. 能向上延伸的场景: 根+ 左 与根 + 右比较 ，哪个大选哪边。
+     * 3. 这样就可以覆盖所有场景了
+     * 4. 为了方便计算，将负数或者不存在的左右子树与0进行比较，如果小于0，就赋值为0，意思不参与运算。
      * @param root
      * @return
      */
-    public int dfs2(TreeNode root){
+    public int maxPathSum(TreeNode root) {
+        int num = digui(root);
+        return Math.max(max,num);
+    }
+
+    public int digui(TreeNode root){
         if(root == null){
             return 0;
         }
-        int leftVar = dfs(root.left);
-        int rightVar = dfs(root.right);
-        int sum = leftVar + root.val + rightVar;
-        int curr = Math.max (root.val,Math.max(leftVar + root.val, rightVar + root.val));
-        max = Math.max(max,Math.max(sum,curr));
-        //选择最优的递归
-        return curr;
+        int leftNum = Math.max(digui(root.left), 0);
+        int rightNum = Math.max(digui(root.right), 0);
+        max = Math.max(max,root.val + leftNum + rightNum);
+        return root.val + Math.max(leftNum,rightNum);
     }
 }

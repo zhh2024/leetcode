@@ -34,7 +34,7 @@ public class SortedArrayToBST {
             return null;
         }
         int mid = left + (right - left)/2;
-        TreeNode treeNode = new TreeNode(nums[mid]);
+        TreeNode treeNode = new TreeNode();
         treeNode.left = digui(nums,left,mid -1);
         treeNode.right = digui(nums,mid +1 ,right);
         return treeNode;

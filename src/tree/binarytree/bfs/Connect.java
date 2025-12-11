@@ -1,6 +1,7 @@
 package tree.binarytree.bfs;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @Desc: 填充每个节点的下一个右侧节点指针 II
@@ -35,66 +36,44 @@ public class Connect {
         Node node3 = new Node(3, null, node7, null);
         Node node2 = new Node(2, node4, node5, null);
         Node node1 = new Node(1, node2, node3, null);
-        connect2(node1);
+        connect(node1);
     }
 
+    /**
+     * 思路:
+     * 1. 层次遍历，首先要想到用双向队列结构去承载，因为先进先出的机制，确保了每一层先执行，然后再将下一层插入进去，是有序的，一直可以循环结束，直至队列为空。
+     * 2. 区分层次，获取队当前对列的长度，就是每一层的元素了。然后内部再写个循环，这样就可以隔离添加后的新元素了，可以区分层次。
+     * 3. 串联起来, 在内部循环里面，因为这个循环的是当前层的元素，然后next串联起来即可。
+     * @param root
+     * @return
+     */
     public static Node connect(Node root) {
         if (root == null) {
             return null;
         }
-        LinkedList<Node> queue = new LinkedList<>();
+        Queue<Node> queue = new LinkedList<>();
         queue.offer(root);
-        while (!queue.isEmpty()) {
+        while (!queue.isEmpty()){
             int size = queue.size();
-            Node dummyNode = new Node();
+            Node last = null;
             for (int i = 0; i < size; i++) {
-                Node node = queue.poll();
-                dummyNode.next = node;
-                dummyNode = node;
-                if (node.left != null) {
-                    queue.offer(node.left);
+                Node f = queue.poll();
+                if(f.left!=null){
+                    queue.offer(f.left);
                 }
-                if (node.right != null) {
-                    queue.offer(node.right);
+                if(f.right != null){
+                    queue.offer(f.right);
                 }
+                if (i != 0) {
+                    last.next = f;
+                }
+                last = f;
             }
         }
+
         return root;
     }
 
-    /**
-     * 思路: 层次遍历,初始化一个哑节点,指向root, 遍历这个链表,取出left和right节点。重新初始话哑节点，指向left和right,构成新链表。将这个新链表的next就是头
-     * 传给head,继续遍历这个新链表，直至新链表为null。
-     * @param root
-     * @return
-     */
-    public static Node connect2(Node root) {
-        if (root == null) {
-            return null;
-        }
-        Node head = root;
-        while (head!=null){
-            //构建哑节点
-            Node dummyNode = new Node();
-            Node pre = dummyNode;
-            //遍历head
-            Node tmp = head;
-            while (tmp!=null){
-                if(tmp.left!=null){
-                    pre.next = tmp.left;
-                    pre = tmp.left;
-                }
-                if(tmp.right!=null){
-                    pre.next = tmp.right;
-                    pre = tmp.right;
-                }
-                tmp = tmp.next;
-            }
-            //head重新赋值
-            head = dummyNode.next;
-        }
-        return root;
-    }
 
 
 

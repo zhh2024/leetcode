@@ -1,6 +1,9 @@
 
 import tree.binarytree.TreeNode;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 
 /**
@@ -11,33 +14,24 @@ import tree.binarytree.TreeNode;
 public class Zhh {
 
     public static void main(String[] args) {
-        TreeNode treeNode1 = new TreeNode(-5);
-        TreeNode treeNode2 = new TreeNode(-3);
+        //[236,104,701,null,227,null,911]
+        TreeNode treeNode1 = new TreeNode(236);
+        TreeNode treeNode2 = new TreeNode(104);
+        TreeNode treeNode3 = new TreeNode(701);
+        TreeNode treeNode4 = new TreeNode(227);
+        TreeNode treeNode5 = new TreeNode(911);
 
-        TreeNode treeNode3 = new TreeNode(-2);
         treeNode1.left = treeNode2;
         treeNode1.right = treeNode3;
+        treeNode2.right = treeNode4;
+        treeNode3.right = treeNode5;
 
-        maxPathSum(treeNode1);
-        System.out.println(max);
+        Zhh zhh = new Zhh();
+
+
     }
 
-    static int  max = Integer.MIN_VALUE;
 
-    public static int maxPathSum(TreeNode root) {
-        digui(root);
-        return max;
-    }
-
-    public static  int digui(TreeNode root){
-        if(root == null){
-            return 0;
-        }
-        int leftNum = Math.max(digui(root.left), 0);
-        int rightNum = Math.max(digui(root.right), 0);
-        max = Math.max(max,root.val + leftNum + rightNum);
-        return root.val + Math.max(leftNum,rightNum);
-    }
 
 
 

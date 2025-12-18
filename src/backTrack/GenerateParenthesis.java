@@ -27,42 +27,39 @@ public class GenerateParenthesis {
         List<String> strings = generateParenthesis.generateParenthesis(4);
         System.out.println(strings.toString());
     }
+    ArrayList<String> list = new ArrayList<>();
 
     public List<String> generateParenthesis(int n) {
-        backtrack(new StringBuilder(),0,0,n);
-        return ans;
+        backtrack(n,0,0,new StringBuilder());
+        return list;
     }
-
-
-    ArrayList<String> ans = new ArrayList<>();
-
 
     /**
-     * 从最大左括号,开始逐渐减少,获取全部组合
-     * 如果左括号数量不大于 n，我们可以放一个左括号。如果右括号数量小于左括号的数量，我们可以放一个右括号。
-     * @param cur
-     * @param open
-     * @param close
-     * @param max
+     递归过程中，当前栈快照变量过程中，当右大于左，必然不符合条件。根据这个条件可以编写出递归流程
      */
-    public void backtrack(StringBuilder cur, int open, int close, int max) {
-        //不可用open == close作为退出条件。 比如出现()就不继续了
-        if(cur.length() == max * 2){
-            ans.add(cur.toString());
+    public void backtrack(int n , int lNum, int rNum,StringBuilder stringBuilder){
+        if(rNum > lNum){
             return;
         }
-        if(open < max){
-            cur.append("(");
-            backtrack(cur,open+1,close,max);
-            cur.deleteCharAt(cur.length()-1);
-        }
-        if(close < open){
-            cur.append(")");
-            backtrack(cur,open,close+1,max);
-            cur.deleteCharAt(cur.length()-1);
-        }
-    }
 
+        if(rNum + lNum == n * 2 ){
+            list.add(stringBuilder.toString());
+            return;
+        }
+
+        if (lNum < n){
+            stringBuilder.append("(");
+            backtrack(n,lNum+1,rNum ,stringBuilder);
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        }
+
+        if (rNum < n){
+            stringBuilder.append(")");
+            backtrack(n,lNum, rNum + 1,stringBuilder);
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+        }
+
+    }
 
 
 }

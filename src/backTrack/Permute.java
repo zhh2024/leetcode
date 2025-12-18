@@ -1,6 +1,7 @@
 package backTrack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,6 +43,9 @@ public class Permute {
         return ints;
     }
 
+    /**
+     * 传统的"选择-添加-回溯"  , contains时间复杂度过高
+     */
     public void backTrack(int[] nums, int k, List<Integer> path) {
         if (k == 0) {
             ints.add(new ArrayList<>(path));
@@ -56,6 +60,39 @@ public class Permute {
             path.add(num);
             backTrack(nums, k - 1, path);
             path.remove(path.size() - 1);
+        }
+    }
+
+    /**
+     * 递归交换法
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permute02(int[] nums) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+
+        List<Integer> output = new ArrayList<Integer>();
+        for (int num : nums) {
+            output.add(num);
+        }
+
+        int n = nums.length;
+        backtrack02(n, output, res, 0);
+        return res;
+    }
+
+    public void backtrack02(int deep, List<Integer> output, List<List<Integer>> res, int first) {
+        // 所有数都填完了
+        if (first == deep) {
+            res.add(new ArrayList<>(output));
+        }
+        for (int i = first; i < deep; i++) {
+            // 动态维护数组
+            Collections.swap(output, first, i);
+            // 继续递归填下一个数
+            backtrack02(deep, output, res, first + 1);
+            // 撤销操作
+            Collections.swap(output, first, i);
         }
     }
 }

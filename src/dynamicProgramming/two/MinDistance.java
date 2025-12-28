@@ -32,6 +32,9 @@ package dynamicProgramming.two;
  * enention -> exention (将 'n' 替换为 'x')
  * exention -> exection (将 'n' 替换为 'c')
  * exection -> execution (插入 'u')
+ *
+ *
+ * 思路: 动态规划，难点是当前最优子结构结果依赖于四种(增，删，改，不变)可能发生的情况，然后取最小值就是当前最优子结构。
  * @Author：zhh
  * @Date：2025/6/10 15:18
  */

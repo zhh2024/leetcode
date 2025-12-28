@@ -21,6 +21,10 @@ import java.util.HashMap;
  * 1. 1 阶 + 1 阶 + 1 阶
  * 2. 1 阶 + 2 阶
  * 3. 2 阶 + 1 阶
+ *
+ *
+ * 思路: 定位到 dp[i] = dp[i-1] + dp[i-2]   为什么i-1 和 i-2 不会有重复方案呢，因为最后一步的选择不一样，所以方案不会有任何重复。那如果前面的选择一样的话，阶梯数也一样了，不符合所有最终方案是不会重复的。
+ *      所以可以定位函数f(n) = f(n-1) + f(n-2)
  * @Author：zhh
  * @Date：2025/3/18 14:13
  */
@@ -57,4 +61,25 @@ public class ClimbStairs {
         map.put(n,i);
         return i ;
     }
+
+    /**
+     * 动态规划,因为只依赖于前两个下标解，所以不需要一维数组记录，每一阶所需要的不同方法次数。
+     * @param n
+     * @return
+     */
+    public int climbStairs02(int n) {
+        if(n <= 2 ){
+            return n;
+        }
+        int n1 = 1; int n2 = 2;
+        for (int i = 3; i < n; i++) {
+            int tmp = n2;
+            n2 = n1 + n2;
+            n1 = tmp;
+        }
+        return n1 + n2;
+    }
+
+
+
 }

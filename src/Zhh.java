@@ -27,14 +27,9 @@ public class Zhh {
         treeNode3.right = treeNode5;
 
         Zhh zhh = new Zhh();
-
+        int[] a = {2,3,1,1,4};
 
     }
-
-
-
-
-
 
 
 }

@@ -89,4 +89,32 @@ public class LongestPalindrome {
         }
         return s.substring(maxi,maxj +1);
     }
+
+    /**
+     * dp，每个回文串内部必然也是回文串,转移方程为: dp[i][j] = dp[i+1][j-1] && s.charAt(i) == s.charAt(j)
+     * 因为依赖于[i+1,j-1]所以遍历要根据窗口大小来遍历，才可以具备之前的dp状态已被记录
+     */
+    public String longestPalindrome03(String s) {
+        int length = s.length();
+        boolean[][] dp = new boolean[length][length];
+        for (int i = 0; i < length; i++) {
+            dp[i][i] = true;
+        }
+        int start = 0,end = 0;
+        for (int i = 1; i <= length; i++) {
+            for (int j = 0; j < length - i; j++) {
+                boolean flag = s.charAt(j) == s.charAt(j + i);
+                if(i==1){
+                    dp[j][j+i] = flag;
+                }else {
+                    dp[j][j+i] = dp[j+1][j+i-1] && flag;
+                }
+                if(dp[j][j+i]){
+                    start = j;
+                    end = j+i;
+                }
+            }
+        }
+        return s.substring(start,end+1);
+    }
 }

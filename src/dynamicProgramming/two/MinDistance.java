@@ -10,6 +10,13 @@ package dynamicProgramming.two;
  *
  * 示例 1：
  * 输入：word1 = "horse", word2 = "ros"
+ *
+ * 插入 horse -> ro   dp[i][j] = dp[i][j-1] + 1
+ * 删除 hors  -> ros  dp[i][j] = dp[i-1][j] +1
+ * 替换 hors -> ro    dp[i][j] = dp[i-1][i-j]
+ *
+ *
+ *
  * 输出：3
  * 解释：
  * horse -> rorse (将 'h' 替换为 'r')
@@ -32,64 +39,69 @@ public class MinDistance {
 
     public static void main(String[] args) {
         MinDistance minDistance = new MinDistance();
-        int i = minDistance.minDistance("horse", "ros");
+        int i = minDistance.minDistance02("", "a");
         System.out.println(i);
     }
 
-    public int minDistance(String word1, String word2) {
-        // 基本情况：任一字符串为空
-        if (word1.isEmpty()) {
-            return word2.length();
-        }
-        if (word2.isEmpty()) {
-            return word1.length();
-        }
+    /**
+     * 最后一步操作分析 这是DP设计的核心思维方式。我们逆向思考：在最优的转换序列中，最后一步操作是什么？
+     * 只有三种可能：
+     * 删除：删掉 word1 的最后一个字符
+     * 插入：插入 word2 的最后一个字符
+     * 替换：把 word1 的最后一个字符换成 word2 的最后一个字符（或不变）
+     * 具体推理：
+     * 设 word1 有 i 个字符，word2 有 j 个字符。
+     * 情况1：最后一步是删除
+     * 先让 word1[0..i-2] 变成 word2[0..j-1]（代价：D[i-1][j]）
+     * 再删除 word1[i-1]（代价：+1）
+     * 总代价：D[i-1][j] + 1
+     * <p>
+     * 情况2：最后一步是插入
+     * 先让 word1[0..i-1] 变成 word2[0..j-2]（代价：D[i][j-1]）
+     * 再插入 word2[j-1]（代价：+1）
+     * 总代价：D[i][j-1] + 1
+     * <p>
+     * 情况3：最后一步是替换或不操作
+     * 先让 word1[0..i-2] 变成 word2[0..j-2]（代价：D[i-1][j-1]）
+     * 如果 word1[i-1] == word2[j-1]：不需要额外操作（代价：+0）
+     * 如果 word1[i-1] != word2[j-1]：替换最后一个字符（代价：+1）
+     * 总代价：D[i-1][j-1] + cost，其中 cost = 0/1
 
-        // 首字符相同的情况
-        if (word1.charAt(0) == word2.charAt(0)) {
-            return minDistance(word1.substring(1), word2.substring(1));
-        }
-
-        // 计算三种操作的成本
-        // 插入 字符串1插入了与字符串2首字符相同的值，因为插入是伪插入,字符串1还是当前首字符, 字符串2进入下一个字符
-        int insert = minDistance(word1, word2.substring(1));
-        // 删除 字符串1首字母删除了,进入下一个字符
-        int delete = minDistance(word1.substring(1), word2);
-        // 替换 首字符必然相等了,同步进入下一个字符
-        int replace = minDistance(word1.substring(1), word2.substring(1));
-
-        // 返回最小值 + 当前操作成本
-        return 1 + Math.min(Math.min(insert, delete), replace);
-    }
-
-
-
+     * 示例 1：
+     * 输入：word1 = "horse", word2 = "ros"
+     * 最后一步的操作有下面三种可能情况
+     * 插入 horse -> ro   dp[i][j] = dp[i][j-1] + 1
+     * 删除 hors  -> ros  dp[i][j] = dp[i-1][j] +1
+     * 替换 hors -> ro    dp[i][j] = dp[i-1][i-j]
+     */
     public int minDistance02(String word1, String word2) {
-        int m = word1.length(), n = word2.length();
-        int[][] dp = new int[m + 1][n + 1];
-
-        // 初始化边界
-        for (int i = 0; i <= m; i++) {
+        int w1l = word1.length();
+        int w2l = word2.length();
+        int[][] dp = new int[w1l + 1][w2l +1 ];
+        //初始化，解决边界问题，代表word1 没有字符的情况，达到word2 需要多少次取决于word2长度
+        for (int i = 0; i <= w2l; i++) {
+            dp[0][i] = i;
+        }
+        //初始化，解决边界问题，代表word1 ，达到word2空字符串 需要多少次取决于word1长度
+        for (int i = 0; i <= w1l; i++) {
             dp[i][0] = i;
         }
-        for (int j = 0; j <= n; j++) {
-            dp[0][j] = j;
-        }
-
-        // 动态规划填表
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                    // 字符匹配
-                    dp[i][j] = dp[i - 1][j - 1];
-                } else {
-                    int insert = dp[i][j - 1] + 1;
-                    int delete = dp[i - 1][j] + 1;
-                    int replace = dp[i - 1][j - 1] + 1;
-                    dp[i][j] = Math.min(Math.min(insert, delete), replace);
+        for (int i = 1; i <= w1l; i++) {
+            for (int j = 1; j <= w2l; j++) {
+                int insert = dp[i][j - 1] + 1;
+                int del = dp[i - 1][j] + 1;
+                int update = dp[i - 1][j - 1];
+                //更新不一样的点在于前面的都匹配了，看当前字符是否需要更新了。
+                if(word1.charAt(i-1) != word2.charAt(j-1)){
+                    update = update+1;
                 }
+                dp[i][j] = Math.min(update,Math.min(insert,del));
             }
         }
-        return dp[m][n];
+        return dp[w1l][w2l];
     }
+
+
+
+
 }
